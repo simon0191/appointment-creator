@@ -1,0 +1,138 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+datepicker {
+  position: absolute;
+}
+
+datepicker .picker {
+  background-color: white;
+  width: 250px;
+}
+
+@media only screen and (max-width: 480px) {
+  datepicker .picker {
+    width: 100%;
+    left: 0;
+  }
+}
+
+datepicker .picker .header {
+  text-align: center;
+  border-style: solid;
+  border-width: 1px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 480px) {
+  datepicker .picker .header {
+    height: 14vw;
+    line-height: 14vw;
+  }
+}
+
+datepicker .picker .header .prev-month {
+  float: left;
+}
+
+@media only screen and (max-width: 480px) {
+  datepicker .picker .header .prev-month {
+    width: 14vw;
+    height: 100%;
+  }
+}
+
+datepicker .picker .header .next-month {
+  float: right;
+}
+
+@media only screen and (max-width: 480px) {
+  datepicker .picker .header .next-month {
+    width: 14vw;
+    height: 100%;
+  }
+}
+
+datepicker .picker .header:after {
+  content: " ";
+  display: table;
+  clear: both;
+}
+
+datepicker .picker .body {
+  border-style: none solid solid solid;
+  border-width: 1px;
+}
+
+datepicker .picker .body .days-row .day-name,
+datepicker .picker .body .day-names-row .day-name {
+  font-weight: bold;
+}
+
+datepicker .picker .body .days-row .day-name,
+datepicker .picker .body .day-names-row .day-name {
+  font-size: 15px;
+}
+
+datepicker .picker .body .days-row .day,
+datepicker .picker .body .days-row .day-name,
+datepicker .picker .body .day-names-row .day,
+datepicker .picker .body .day-names-row .day-name {
+  padding: 2px 6px 3px 6px;
+  text-align: center;
+  display: inline-block;
+  width: calc(100%/7);
+  float: left;
+}
+
+@media only screen and (max-width: 480px) {
+  datepicker .picker .body .days-row .day,
+  datepicker .picker .body .days-row .day-name,
+  datepicker .picker .body .day-names-row .day,
+  datepicker .picker .body .day-names-row .day-name {
+    height: 14vw;
+    line-height: 14vw;
+  }
+}
+
+datepicker .picker .body .days-row .day,
+datepicker .picker .body .day-names-row .day {
+  font-size: 12px;
+  border-radius: 0px;
+  backgroun-color: blue;
+}
+
+datepicker .picker .body .days-row .day.selected,
+datepicker .picker .body .day-names-row .day.selected {
+  background-color: #4BD2C2;
+}
+
+datepicker .picker .body .days-row .day:not(.disabled),
+datepicker .picker .body .day-names-row .day:not(.disabled) {
+  cursor: default;
+}
+
+datepicker .picker .body .days-row .day:not(.disabled):hover,
+datepicker .picker .body .day-names-row .day:not(.disabled):hover {
+  background-color: #449FDF;
+}
+
+datepicker .picker .body .days-row .day.disabled,
+datepicker .picker .body .day-names-row .day.disabled {
+  color: #B0B0B0;
+  cursor: not-allowed;
+}
+
+datepicker .picker .body .days-row:after,
+datepicker .picker .body .day-names-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
