@@ -1,9 +1,4 @@
-const refs = {
-  datepickerInput: '#datepicker',
-  datepicker: '.datepicker',
-  prevMonth: '.datepicker .prev-month',
-  nextMonth: '.datepicker .next-month',
-};
+const refs = require('../refs');
 
 const currDate = new Date();
     currDate.setHours(0);

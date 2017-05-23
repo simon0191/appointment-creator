@@ -33,7 +33,7 @@
                 [attrName]: value
               });
             }, {});
-          const nodeState = Object.assign(Espinazo.components[c.tagName].defaultState, props);
+          const nodeState = Object.assign({}, Espinazo.components[c.tagName].defaultState, props);
           Espinazo.components[c.tagName].fillNode(c, nodeState);
         } else {
           this.dfs(c, state);
@@ -64,6 +64,12 @@
     }
 
     setState(newState) {
+      if(this.debug) {
+        console.log({
+          old: this.state,
+          new: newState,
+        });
+      }
       this.state = newState;
       this.update();
     }
