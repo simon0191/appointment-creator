@@ -3,13 +3,19 @@
 
   class Component {
     constructor(opts) {
-      this.tag = opts.tag;
-      this.render = opts.render;
+      Object.keys(opts).forEach((k) => {
+        this[k] = opts[k];
+      });
+
       this.defaultState = opts.defaultState || {};
     }
 
     fillNode(node, state) {
-      node.innerHTML = this.render(state);
+      node.innerHTML = this.render(state, node);
+      this.dfs(node, state);
+    }
+
+    dfs(node, state) {
       Array.from(node.children).forEach((c) => {
         if(c.tagName in Espinazo.components) {
           const props = Array.from(c.attributes)
@@ -29,6 +35,8 @@
             }, {});
           const nodeState = Object.assign(Espinazo.components[c.tagName].defaultState, props);
           Espinazo.components[c.tagName].fillNode(c, nodeState);
+        } else {
+          this.dfs(c, state);
         }
       });
     }
@@ -37,9 +45,7 @@
   class Container extends Component {
     constructor(opts) {
       super(opts);
-      this.selector = opts.selector;
       this.container = document.querySelector(this.selector);
-      this.state = opts.state;
     }
 
     init() {
@@ -81,61 +87,8 @@
         return node.attributes['ez:state'].value;
       }
       return null;
-    }
-
+    },
+    Component: Component,
+    Container: Container,
   };
 }
-Espinazo.registerComponent({
-  tag: 'box',
-  render: (state) => {
-    return `
-      <div style="background-color: ${state.the_color};">
-        XXXXX
-      </div>
-    `;
-  }
-});
-
-Espinazo.registerComponent({
-  tag: 'subtitle',
-  defaultState: {
-    boxColor: 'red',
-  },
-  render: (state) => {
-    return `
-      <h2>¡${state.title}!</h2>
-      <p>${state.blah()}</p>
-      <box the_color="${state.boxColor}"></box>
-    `;
-  }
-});
-
-const mainContainer = Espinazo.createContainer({
-  selector: '#espinazo',
-  state: {
-    subtitle: 'Prueba de subtitulo',
-    counter: 1,
-    fn: () => {
-      return "Hell yeah"
-    },
-  },
-  render(state) {
-    return `
-      <h1 onclick="mutator.handleClick(1)">Hola Mundo</h1>
-      <subtitle ez:ref:blah="state.fn" title="${state.subtitle} - ${state.counter}"></subtitle>
-    `;
-  },
-  handleTitleClick(event) {
-    console.log('funciona madafaca');
-  }
-});
-
-const mutator = {
-  handleClick(e) {
-    mainContainer.setState(Object.assign(mainContainer.state, {
-      counter: mainContainer.state.counter + 1,
-    }));
-  },
-};
-
-mainContainer.init();
