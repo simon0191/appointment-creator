@@ -112,7 +112,9 @@ class EzDatePicker extends Espinazo.Component {
         if (!x.disabled) {
           const param = Espinazo.escape(x.date.toString());
           return `
-            <span onclick="actions.setDate('${param}')" class="day ${x.classes}">
+            <span onclick="actions.setDate('${param}')"
+                  class="day ${x.classes}"
+                  data-day="${x.date.getDate()}">
               ${x.text}
             </span>`;
         }
@@ -163,7 +165,7 @@ const container = Espinazo.createContainer({
       <div onclick="actions.closeDatePicker(this)">
         <h1>${state.title}</h1>
         <p>${state.subtitle}</p>
-        <input onclick="actions.openDatePicker(this, event)" readonly type="text" placeholder="Choose a date..." ${value}/>
+        <input id="datepicker" onclick="actions.openDatePicker(this, event)" readonly type="text" placeholder="Choose a date..." ${value}/>
         ${datepicker}
       </div>
     `;

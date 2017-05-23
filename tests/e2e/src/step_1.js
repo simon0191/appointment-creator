@@ -1,8 +1,8 @@
 const refs = {
   datepickerInput: '#datepicker',
-  datepicker: 'datepicker',
-  prevMonth: 'datepicker .prev-month',
-  nextMonth: 'datepicker .next-month',
+  datepicker: '.datepicker',
+  prevMonth: '.datepicker .prev-month',
+  nextMonth: '.datepicker .next-month',
 };
 
 const currDate = new Date();
@@ -39,7 +39,7 @@ module.exports = {
       .waitForElementVisible(refs.datepickerInput, 1000)
       .click(refs.datepickerInput)
       .waitForElementVisible(refs.datepicker, 1000)
-      .click(`${refs.datepicker} .day[data-date='${currDate.toString()}']`)
+      .click(`${refs.datepicker} .day[data-day='${currDate.getDate()}']`)
       .assert.value(refs.datepickerInput, formattedDate)
   },
 
@@ -51,7 +51,7 @@ module.exports = {
       .click(refs.datepickerInput)
       .waitForElementVisible(refs.datepicker, 1000)
       .click(refs.nextMonth)
-      .click(`${refs.datepicker} .day[data-date='${nextMonth.toString()}']`)
+      .click(`${refs.datepicker} .day[data-day='${nextMonth.getDate()}']`)
       .assert.value(refs.datepickerInput, formattedDate);
   },
 
@@ -65,7 +65,7 @@ module.exports = {
       .click(refs.prevMonth)
       .pause(100)
       .click(refs.prevMonth)
-      .click(`${refs.datepicker} .day[data-date='${prevMonth.toString()}']`)
+      .click(`${refs.datepicker} .day[data-day='${prevMonth.getDate()}']`)
       .assert.value(refs.datepickerInput, formattedDate);
   },
 
@@ -73,7 +73,7 @@ module.exports = {
     browser
       .waitForElementVisible(refs.datepickerInput, 1000)
       .click(refs.datepickerInput)
-      .assert.cssClassPresent(`${refs.datepicker} .day[data-date='${prevMonth.toString()}']`, 'selected')
+      .assert.cssClassPresent(`${refs.datepicker} .day[data-day='${prevMonth.getDate()}']`, 'selected')
   },
 
   'End': (browser) => {
