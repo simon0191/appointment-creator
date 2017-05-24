@@ -1,4 +1,5 @@
 module.exports = {
+  title: 'h1',
   datepickerInput: '#datepicker',
   datepicker: '.datepicker',
   prevMonth: '.datepicker .prev-month',
@@ -8,4 +9,5 @@ module.exports = {
   message: '.message',
   saveBtn: '.save',
   cancelBtn: '.cancel',
+  filters: '.filters',
 };

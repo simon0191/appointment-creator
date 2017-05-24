@@ -9,7 +9,7 @@ module.exports = {
   'Init': (browser) => {
     browser.url(browser.launch_url);
   },
-  'Enable and disable Save button' : function (browser) {
+  'Enable and disable Save button' : (browser) => {
 
     browser
       .waitForElementVisible(refs.datepickerInput, 1000);

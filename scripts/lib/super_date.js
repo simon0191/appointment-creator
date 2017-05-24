@@ -5,6 +5,10 @@
       return new SuperDate(this.getFullYear(), this.getMonth(), 1);
     }
 
+    beginningOfDay() {
+      return new SuperDate(this.getFullYear(), this.getMonth(), this.getDate(), 0, 0, 0, 0);
+    }
+
     addDay() {
       return new SuperDate(
         this.getFullYear(),
@@ -48,6 +52,10 @@
         this.getMonth() === date.getMonth() &&
         this.getDate() === date.getDate()
       );
+    }
+
+    isAfter(date) {
+      return (date && this.getTime() > date.getTime());
     }
   }
 }

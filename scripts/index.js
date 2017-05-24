@@ -13,7 +13,22 @@ const Utils = {
     }
 
     return `${format(hours)}:${format(mins)} ${ampm}`;
-  }
+  },
+
+  disableDayFn: (date) => {
+    const currDate = new SuperDate().beginningOfDay();
+    return currDate.isAfter(date);
+  },
+
+  disableWeekdaysFn: (date) => {
+    const currDate = new SuperDate().beginningOfDay();
+    return currDate.isAfter(date) || [1,2,3,4,5].includes(date.getDay());
+  },
+
+  disableWeekendsFn: (date) => {
+    const currDate = new SuperDate().beginningOfDay();
+    return currDate.isAfter(date) || [0,6].includes(date.getDay());
+  },
 };
 
 const container = Espinazo.createContainer({
@@ -33,6 +48,8 @@ const container = Espinazo.createContainer({
     isSaved: false,
     savedTime: null,
     savedDate: null,
+    dateFilter: 'any',
+    disableDayFn: Utils.disableDayFn,
   },
   render(state, node) {
     let value = '';
@@ -42,12 +59,15 @@ const container = Espinazo.createContainer({
     let datepicker = '';
     if(state.isDatePickerOpen) {
       datepicker = `
-        <ez-datepicker ez:ref:year="state.year"
-                       ez:ref:month="state.month"
-                       ez:ref:date="state.date"
-                       left="${state.datePickerLeft}"
-                       top="${state.datePickerTop}"
-                       class="datepicker">
+        <ez-datepicker
+          ez:ref:year="state.year"
+          ez:ref:month="state.month"
+          ez:ref:date="state.date"
+          ez:ref:disable-day-fn="state.disableDayFn"
+          left="${state.datePickerLeft}"
+          top="${state.datePickerTop}"
+          class="datepicker"
+          onclick="event.stopPropagation()">
         </ez-datepicker>
       `;
     }
@@ -60,13 +80,32 @@ const container = Espinazo.createContainer({
     }
 
     return `
-      <div onclick="actions.closeDatePicker(this)">
-        <div>
-          <h1>${state.title}</h1>
-          <p>${state.subtitle}</p>
-          <input id="datepicker" onclick="actions.openDatePicker(this, event)" readonly type="text" placeholder="Choose a date..." ${value}/>
-          ${datepicker}
-          <ez-timepicker ez:ref:time="state.time" ez:ref:time-formatter="state.timeFormatter"></ez-timepicker>
+      <div class="main-container container" onclick="actions.closeDatePicker(this)">
+        <div class="row">
+          <div className="col-12">
+            <h1>${state.title}</h1>
+            <p>${state.subtitle}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4 filters">
+            <div>
+              <input ${state.dateFilter === 'any' ? 'checked' : ''} type="radio" name="filter" onclick="actions.setDateFilter('any')" value="any"> Any Date
+            </div>
+            <div>
+              <input ${state.dateFilter === 'weekends' ? 'checked' : ''} type="radio" name="filter" onclick="actions.setDateFilter('weekends')" value="weekends"> Only weekends
+            </div>
+            <div>
+              <input ${state.dateFilter === 'weekdays' ? 'checked' : ''} type="radio" name="filter" onclick="actions.setDateFilter('weekdays')" value="weekdays"> Only weekdays
+            </div>
+          </div>
+          <div class="col-4">
+            <input id="datepicker" onclick="actions.openDatePicker(this, event)" readonly type="text" placeholder="Choose a date..." ${value}/>
+            ${datepicker}
+          </div>
+          <div class="col-4">
+            <ez-timepicker ez:ref:time="state.time" ez:ref:time-formatter="state.timeFormatter"></ez-timepicker>
+          </div>
         </div>
 
         <div class="buttons">
@@ -136,6 +175,8 @@ const actions = {
     if(container.state.isDatePickerOpen) {
       container.setState(Object.assign({}, container.state, {
         isDatePickerOpen: false,
+        year: (container.state.date || new SuperDate()).getFullYear(),
+        month: (container.state.date || new SuperDate()).getMonth(),
       }));
     }
   },
@@ -156,6 +197,29 @@ const actions = {
 
   reset() {
     container.setState(Object.assign({}, container.defaultState));
+  },
+
+  setDateFilter(filter) {
+    if(container.state.dateFilter !== filter) {
+      let disableDateFn = null;
+      let date = container.state.date;
+      switch(filter) {
+        case 'any': disableDateFn = Utils.disableDayFn; break;
+        case 'weekends': disableDateFn = Utils.disableWeekdaysFn; break;
+        case 'weekdays': disableDateFn = Utils.disableWeekendsFn; break;
+        default: return;
+      }
+      if(date && disableDateFn(date)) {
+        date = null;
+      }
+      container.setState(Object.assign({}, container.state, {
+        dateFilter: filter,
+        disableDayFn: disableDateFn,
+        date: date,
+        year: (date || new SuperDate()).getFullYear(),
+        month: (date || new SuperDate()).getMonth(),
+      }));
+    }
   }
 };
 

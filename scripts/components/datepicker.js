@@ -114,12 +114,17 @@
             return `
               <span onclick="actions.setDate('${param}')"
                     class="day ${x.classes}"
-                    data-day="${x.date.getDate()}">
+                    data-day="${x.date.getDate()}"
+                    data-weekday="${x.date.getDay()}">
                 ${x.text}
               </span>`;
           }
 
-          return `<span disabled class="day ${x.classes}">${x.text}</span>`;
+          return `<span disabled class="day ${x.classes}"
+                        data-day="${x.date && x.date.getDate()}"
+                        data-weekday="${x.date && x.date.getDay()}">
+                      ${x.text}
+                  </span>`;
         })
         .join('\n');
       return `

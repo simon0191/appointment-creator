@@ -4,7 +4,7 @@ module.exports = {
   'Init': (browser) => {
     browser.url(browser.launch_url);
   },
-  'Default time' : function (browser) {
+  'Default time' : (browser) => {
 
     const expectedDefaultTime = `${12*60}`;
 
