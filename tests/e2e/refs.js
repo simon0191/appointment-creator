@@ -4,5 +4,8 @@ module.exports = {
   prevMonth: '.datepicker .prev-month',
   nextMonth: '.datepicker .next-month',
   timepicker: '.timepicker',
-  timepickerOptions: '.timepicker option'
+  timepickerOptions: '.timepicker option',
+  message: '.message',
+  saveBtn: '.save',
+  cancelBtn: '.cancel',
 };

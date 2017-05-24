@@ -8,21 +8,7 @@
       super({
         tag: 'ez-timepicker',
         defaultState: {
-          optionFormatter: (n) => {
-            n = n%(60*24);
-            const format = (x) => x < 10 ? `0${x}`:`${x}`;
-            const ampm = n >= 12*60 ? 'PM' : 'AM';
-            let hours = Math.floor(n/60);
-            let mins = n%60;
-
-            switch(true) {
-              case (hours === 0): hours = 12; break;
-              case (hours > 12): hours = hours - 12; break;
-              default: hours = hours; break;
-            }
-
-            return `${format(hours)}:${format(mins)} ${ampm}`;
-          },
+          timeFormatter: (n) => n,
           availableTimes: EzTimePicker.defaultTimes()
         },
       });
@@ -39,7 +25,7 @@
     renderOption(state, n) {
       const selected = `${state.time}` === `${n}` ? 'selected' : '';
       return `
-        <option ${selected} value="${n}">${state.optionFormatter(n)}</option>
+        <option ${selected} value="${n}">${state.timeFormatter(n)}</option>
       `;
     }
   }

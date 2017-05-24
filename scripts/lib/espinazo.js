@@ -1,5 +1,6 @@
 {
   const REF_REGEX = new RegExp("^ez\:ref\:(.+)$");
+  const camelize = (str) => str.split(/[\W_]/).map((s,i) => i > 0 ? s[0].toUpperCase() + s.substr(1): s).join('');
 
   class Component {
     constructor(opts) {
@@ -30,7 +31,7 @@
               }
 
               return Object.assign(memo,{
-                [attrName]: value
+                [camelize(attrName)]: value
               });
             }, {});
           const nodeState = Object.assign({}, Espinazo.components[c.tagName].defaultState, props);
@@ -49,6 +50,7 @@
     }
 
     init() {
+      this.state = Object.assign({}, this.defaultState, this.state)
       this.update();
     }
 
@@ -65,10 +67,7 @@
 
     setState(newState) {
       if(this.debug) {
-        console.log({
-          old: this.state,
-          new: newState,
-        });
+        console.log({old: this.state, new: newState});
       }
       this.state = newState;
       this.update();
