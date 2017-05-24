@@ -91,17 +91,20 @@ const container = Espinazo.createContainer({
         <div class="row">
           <div class="col-4 filters">
             <div>
-              <input ${state.dateFilter === 'any' ? 'checked' : ''} type="radio" name="filter" onclick="actions.setDateFilter('any')" value="any"> Any Date
+              <input id="any" ${state.dateFilter === 'any' ? 'checked' : ''} type="radio" name="filter" onclick="actions.setDateFilter('any')" value="any">
+              <label for="any">Any Date</label>
             </div>
             <div>
-              <input ${state.dateFilter === 'weekends' ? 'checked' : ''} type="radio" name="filter" onclick="actions.setDateFilter('weekends')" value="weekends"> Only weekends
+              <input id="weekends" ${state.dateFilter === 'weekends' ? 'checked' : ''} type="radio" name="filter" onclick="actions.setDateFilter('weekends')" value="weekends">
+              <label for="weekends">Only weekends</label>
             </div>
             <div>
-              <input ${state.dateFilter === 'weekdays' ? 'checked' : ''} type="radio" name="filter" onclick="actions.setDateFilter('weekdays')" value="weekdays"> Only weekdays
+              <input id="weekdays" ${state.dateFilter === 'weekdays' ? 'checked' : ''} type="radio" name="filter" onclick="actions.setDateFilter('weekdays')" value="weekdays">
+              <label for="weekdays">Only weekdays</label>
             </div>
           </div>
           <div class="col-4">
-            <input id="datepicker" onclick="actions.openDatePicker(this, event)" readonly type="text" placeholder="Choose a date..." ${value}/>
+            <input id="datepicker" class="form-control" onclick="actions.openDatePicker(this, event)" readonly type="text" placeholder="Choose a date..." ${value}/>
             ${datepicker}
           </div>
           <div class="col-4">
@@ -109,12 +112,12 @@ const container = Espinazo.createContainer({
           </div>
         </div>
 
-        <div class="buttons">
-          <button ${state.date && state.time ? '' : 'disabled'} onclick="actions.save()" class="save">Save</button>
-          <button onclick="actions.reset()" class="cancel">Cancel</button>
+        <div class="row buttons">
+          <button ${state.date && state.time ? '' : 'disabled'} onclick="actions.save()" class="save btn btn-success">Save</button>
+          <button onclick="actions.reset()" class="cancel btn">Cancel</button>
         </div>
 
-        <div class="message">
+        <div class="row message">
           ${savedMessage}
         </div>
       </div>

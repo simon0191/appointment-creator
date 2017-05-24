@@ -17,7 +17,7 @@
 
     render(state) {
       return `
-        <select class="timepicker" onchange="actions.setTime(this.value)">
+        <select class="timepicker form-control" onchange="actions.setTime(this.value)">
           ${state.availableTimes.filter((x) => x >= state.minTime).map((x) => this.renderOption(state, x)).join('\n')}
         </select>
       `;
