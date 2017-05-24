@@ -7,6 +7,7 @@
     constructor() {
       super({
         tag: 'ez-timepicker',
+        minTime: 0,
         defaultState: {
           timeFormatter: (n) => n,
           availableTimes: EzTimePicker.defaultTimes()
@@ -17,7 +18,7 @@
     render(state) {
       return `
         <select class="timepicker" onchange="actions.setTime(this.value)">
-          ${state.availableTimes.map((x) => this.renderOption(state, x)).join('\n')}
+          ${state.availableTimes.filter((x) => x >= state.minTime).map((x) => this.renderOption(state, x)).join('\n')}
         </select>
       `;
     }

@@ -42,6 +42,7 @@ const container = Espinazo.createContainer({
     date: null,
     time: 60*12,
     timeFormatter: Utils.timeFormatter,
+    minTime: 0,
     isDatePickerOpen: false,
     datePickerLeft: 0,
     datePickerTop: 0,
@@ -104,7 +105,7 @@ const container = Espinazo.createContainer({
             ${datepicker}
           </div>
           <div class="col-4">
-            <ez-timepicker ez:ref:time="state.time" ez:ref:time-formatter="state.timeFormatter"></ez-timepicker>
+            <ez-timepicker ez:ref:time="state.time" ez:ref:time-formatter="state.timeFormatter" ez:ref:min-time="state.minTime"></ez-timepicker>
           </div>
         </div>
 
@@ -152,9 +153,15 @@ const actions = {
   },
 
   setDate(date) {
+    date = new SuperDate(date);
+    const now = new SuperDate();
+    const todayMins = now.getHours()*60 + now.getMinutes();
+    const next15Interval = todayMins + 15 - (todayMins%15);
     container.setState(Object.assign({}, container.state, {
-      date: new SuperDate(date),
+      date: date,
       isDatePickerOpen: false,
+      minTime: date.equalsDate(now) ? next15Interval : 0,
+      time: date.equalsDate(now) ? (next15Interval < 60*24 ? next15Interval : null) : 60*12,
     }));
   },
 

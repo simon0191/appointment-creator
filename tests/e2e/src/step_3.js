@@ -25,13 +25,12 @@ module.exports = {
   },
 
   'Save': (browser) => {
-    const expectedTime = '12:00 PM';
 
     browser
       .click(refs.saveBtn)
       .waitForElementVisible(refs.message, 1000)
-      .assert.containsText(refs.message, currDate.toLocaleDateString())
-      .assert.containsText(refs.message, expectedTime)
+      .assert.containsText(refs.message, currDate.toLocaleDateString());
+
   },
 
   'Cancel': (browser) => {
