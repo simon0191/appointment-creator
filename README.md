@@ -12,4 +12,5 @@
 
 ## Run tests
 
+- `npm run serve`
 - `npm run tests:e2e`
